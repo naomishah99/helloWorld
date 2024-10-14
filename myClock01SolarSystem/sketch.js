@@ -1,17 +1,10 @@
-let sun;
 let planets = [];
 
 function setup() {
   createCanvas(1500, 790);
-  
-  // The Sun is simply a large yellow ellipse in the center
-  sun = {
-    size: 150, 
-    c: color(255, 204, 0)
-  };
-  
-  // Creating planets (distance from sun, size, speed, color)
-  planets.push(new Planet(70, 10, 4.15 * 0.01, color(169, 169, 169)));  // Mercury
+    
+  // creating planets (distance from sun, size, speed, color)
+  planets.push(new Planet(65, 15, 4.15 * 0.01, color(180, 190, 169)));  // Mercury
   planets.push(new Planet(100, 18, 1.62 * 0.01, color(218, 165, 32)));  // Venus
   planets.push(new Planet(140, 20, 1.00 * 0.01, color(70, 130, 180)));  // Earth
   planets.push(new Planet(180, 15, 0.53 * 0.01, color(188, 39, 50)));   // Mars
@@ -19,19 +12,18 @@ function setup() {
   planets.push(new Planet(300, 35, 0.03 * 0.01, color(255, 223, 150))); // Saturn
   planets.push(new Planet(350, 30, 0.011 * 0.01, color(173, 216, 230))); // Uranus
   planets.push(new Planet(400, 30, 0.006 * 0.01, color(25, 25, 112)));  // Neptune
-  planets.push(new Planet(420, 8, 0.004 * 0.01, color(139, 69, 19)));   // Pluto
+  planets.push(new Planet(420, 8, 0.004 * 0.01, color(159, 69, 19)));   // Pluto
 }
 
 function draw() {
   background(0); // Space background
   translate(width / 2, height / 2); // Move the origin to the center
+
+  // sun
+  ellipse(0,0,150,150);
+  fill(250,204,0);
   
-  // Draw the Sun in the center
-  noStroke();
-  fill(sun.c);
-  ellipse(0, 0, sun.size, sun.size);
-  
-  // Draw the planets orbiting
+  // draw the planets orbiting
   for (let planet of planets) {
     planet.orbit();
     planet.display();
@@ -43,9 +35,11 @@ class Planet {
   constructor(distance, size, speed, c) {
     this.distance = distance;
     this.size = size;
-    this.angle = random(TWO_PI); // Random starting angle
+    this.angle = TWO_PI; // Smae sarting point
     this.speed = speed; // Rotation speed (orbital speed)
     this.c = c; // Planet color
+    this.path = [] 
+    this.pathLen = Infinity
   }
 
   // Orbit function to update position
@@ -53,7 +47,7 @@ class Planet {
     this.angle += this.speed; // Update angle for orbit
   }
 
-  // Display the planet
+  // display the Planet
   display() {
     push();
     rotate(this.angle); // Rotate around the center
@@ -62,5 +56,18 @@ class Planet {
     fill(this.c);
     ellipse(0, 0, this.size, this.size); // Draw the planet
     pop();
+  }
+
+  // orbit path (arc)
+  showOrbitPath() {
+    noFill();
+    stroke(255, 255, 255, 100); // White orbit line with transparency
+    strokeWeight(2);
+    
+    let startAngle = this.angle - 0.1; // Start of the arc (slightly behind the planet)
+    let endAngle = this.angle;         // End of the arc (current position of the planet)
+    
+    // Draw the arc
+    arc(0, 0, this.distance * 2, this.distance * 2, startAngle, endAngle);
   }
 }
