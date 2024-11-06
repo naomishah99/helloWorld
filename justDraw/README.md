@@ -8,7 +8,11 @@
 **Customize Your Colors 🎨**: Use the color picker at the top left of the screen —just click with your mouse to switch things up!
 
 
+
+
 ### Refs
 https://www.youtube.com/watch?v=96sWFP9CCkQ
+
 https://docs.ml5js.org/#/reference/handpose
+
 Also used ChatGPT
